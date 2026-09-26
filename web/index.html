@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWARM-X | Autonomous Multi-Agent Control Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-area">
+            <span class="logo-icon">&#x2B22;</span>
+            <div class="logo-text">
+                <h1>SWARM-X</h1>
+                <span class="subtitle">Multi-Agent Autonomous Simulation & Routing Engine</span>
+            </div>
+        </div>
+        <div class="server-status">
+            <span class="status-dot"></span>
+            <span class="status-label">Engine Online</span>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Control Column -->
+        <aside class="sidebar">
+            <div class="card control-card">
+                <h2>Simulation Controls</h2>
+                <div class="btn-group">
+                    <button id="btn-step" class="btn btn-primary" title="Advance 1 simulation tick">
+                        <span class="icon">&#x25B6;</span> Step
+                    </button>
+                    <button id="btn-auto" class="btn btn-success" title="Run continuous simulation">
+                        <span class="icon">&#x21BB;</span> Auto Run
+                    </button>
+                    <button id="btn-stop" class="btn btn-warning" title="Pause simulation">
+                        <span class="icon">&#x23F8;</span> Pause
+                    </button>
+                    <button id="btn-reset" class="btn btn-danger" title="Reset to initial state">
+                        <span class="icon">&#x21BA;</span> Reset
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="speed-slider">Tick Speed: <span id="speed-val">400ms</span></label>
+                    <input type="range" id="speed-slider" min="100" max="1000" step="50" value="400">
+                </div>
+
+                <div class="form-group">
+                    <label for="algorithm-select">Navigation Strategy</label>
+                    <select id="algorithm-select" class="custom-select">
+                        <option value="AStar">A* (Heuristic Search)</option>
+                        <option value="BFS">BFS (Shortest Path - Unweighted)</option>
+                        <option value="Dijkstra">Dijkstra (Weighted Shortest Path)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Grid Click Action</label>
+                    <div class="segmented-control">
+                        <input type="radio" id="mode-obstacle" name="click-mode" value="obstacle" checked>
+                        <label for="mode-obstacle">Toggle Obstacle</label>
+                        <input type="radio" id="mode-task" name="click-mode" value="task">
+                        <label for="mode-task">Add Task</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telemetry & Metrics -->
+            <div class="card metrics-card">
+                <h2>Telemetry & Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Current Tick</span>
+                        <span id="stat-tick" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Active Agents</span>
+                        <span id="stat-agents" class="metric-value">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Completed</span>
+                        <span id="stat-completed" class="metric-value highlight-green">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Pending</span>
+                        <span id="stat-pending" class="metric-value highlight-orange">0</span>
+                    </div>
+                </div>
+
+                <h3>Agent Status</h3>
+                <div id="agent-list" class="agent-list">
+                    <!-- Dynamic agent telemetry -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Visualizer Area -->
+        <section class="main-content">
+            <div class="card visualizer-card">
+                <div class="card-header">
+                    <h2>Environment Map Visualizer</h2>
+                    <span class="hint">Click on grid to add/remove obstacles or tasks</span>
+                </div>
+                
+                <div class="canvas-wrapper">
+                    <canvas id="simCanvas" width="560" height="560"></canvas>
+                </div>
+
+                <div class="legend-bar">
+                    <div class="legend-item"><span class="legend-badge robot-badge"></span> Agent / Robot</div>
+                    <div class="legend-item"><span class="legend-badge task-badge"></span> Task Location</div>
+                    <div class="legend-item"><span class="legend-badge obstacle-badge"></span> Obstacle</div>
+                    <div class="legend-item"><span class="legend-badge path-badge"></span> Planned Route</div>
+                </div>
+            </div>
+
+            <!-- System Event Feed -->
+            <div class="card log-card">
+                <div class="card-header">
+                    <h2>Live Activity Log</h2>
+                    <button id="btn-clear-log" class="btn-link">Clear Log</button>
+                </div>
+                <div id="event-log" class="event-log">
+                    <div class="log-entry system">[System] SWARM-X Connected. Ready for simulation.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
